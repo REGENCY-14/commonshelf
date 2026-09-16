@@ -45,7 +45,7 @@ export function SiteFooter() {
             Common Shelf: Curated open-access literature preserved for the public domain.
           </p>
           <p className="font-sans text-[13px] leading-5 text-text-secondary">
-            © 2025 Common Shelf. Independent digital library.
+            © {new Date().getFullYear()} Common Shelf. Independent digital library.
           </p>
         </div>
       </div>

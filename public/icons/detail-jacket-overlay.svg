@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="380" height="236" viewBox="0 0 380 236" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SVG - Subtle Arch Graphic Overlay" opacity="0.2" clip-path="url(#clip0_0_8)">
+<path id="Vector" d="M60 517.263V167.263C60 95.5142 118.251 37.2632 190 37.2632C261.749 37.2632 320 95.5142 320 167.263V517.263" stroke="#24344A" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path id="Vector_2" d="M150 97.9649C150 120.042 167.923 137.965 190 137.965C212.077 137.965 230 120.042 230 97.9649C230 75.8883 212.077 57.9649 190 57.9649C167.923 57.9649 150 75.8883 150 97.9649V97.9649" stroke="#C1583C" stroke-width="2"/>
+</g>
+<defs>
+<clipPath id="clip0_0_8">
+<rect width="380" height="236" fill="white"/>
+</clipPath>
+</defs>
+</svg>

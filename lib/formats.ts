@@ -38,7 +38,7 @@ export const FORMAT_CONFIG: Record<BookFormat, FormatConfigEntry> = {
   txt: {
     label: "TXT",
     className: "bg-surface text-text-primary",
-    description: "Plain text — universally compatible, no formatting.",
+    description: "Plain text, universally compatible, no formatting.",
     filterLabel: "Plain text (ASCII)",
     keywords: ["plain text", "ascii", "txt", "text"],
   },

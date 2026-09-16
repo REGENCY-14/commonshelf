@@ -42,7 +42,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-start justify-between gap-2 pt-2 sm:flex-row sm:items-center">
           <p className="font-sans text-[13px] leading-5 text-text-secondary">
-            Common Shelf — Curated open-access literature preserved for the public domain.
+            Common Shelf: Curated open-access literature preserved for the public domain.
           </p>
           <p className="font-sans text-[13px] leading-5 text-text-secondary">
             © 2025 Common Shelf. Independent digital library.

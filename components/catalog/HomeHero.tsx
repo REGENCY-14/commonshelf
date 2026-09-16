@@ -13,11 +13,11 @@ import { getCoverStyle } from "@/lib/covers";
 const TRENDING = ["Middlemarch", "Jane Eyre", "Frankenstein", "The Odyssey"];
 
 /**
- * Homepage hero (Figma "Hero Section", node 20:903): eyebrow badge,
- * two-line display headline with an italic serif accent line, subhead,
- * the primary search bar with real-time autocomplete, trending-title
- * quick links, and — on the right — a fanned stack of three real book
- * cover photographs on a soft radial glow.
+ * Homepage hero (Figma "Hero Section", node 20:903): two-line display
+ * headline with an italic serif accent line, subhead, the primary search
+ * bar with real-time autocomplete, trending-title quick links, and on the
+ * right a fanned stack of three real book cover photographs on a soft
+ * radial glow.
  */
 export function HomeHero() {
   const router = useRouter();
@@ -34,14 +34,7 @@ export function HomeHero() {
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 lg:grid-cols-12">
         {/* Left column: copy + search */}
         <div className="flex flex-col items-start lg:col-span-7">
-          <span className="inline-flex items-center gap-2.5 rounded-full bg-muted px-3.5 py-1.5">
-            <span className="size-2 rounded-full bg-brand-mint" aria-hidden="true" />
-            <span className="font-sans text-eyebrow font-semibold uppercase tracking-[0.6px] text-text-secondary">
-              Public domain &amp; open access catalog
-            </span>
-          </span>
-
-          <h1 className="pt-6 font-serif text-[40px] leading-[1.15] tracking-[-1.4px] text-text-primary sm:text-display sm:leading-[64px]">
+          <h1 className="font-serif text-[40px] leading-[1.15] tracking-[-1.4px] text-text-primary sm:text-display sm:leading-[64px]">
             Find your next great read,
             <br />
             <span className="italic text-brand-teal">free and legal.</span>
@@ -49,7 +42,7 @@ export function HomeHero() {
 
           <p className="max-w-[576px] pt-6 font-sans text-subhead text-text-secondary">
             Over 70,000 public-domain masterworks curated from Project Gutenberg, Standard
-            Ebooks, and the Internet Archive — beautifully formatted for reading anywhere.
+            Ebooks, and the Internet Archive, beautifully formatted for reading anywhere.
           </p>
 
           <div className="relative w-full max-w-[672px] pt-6">

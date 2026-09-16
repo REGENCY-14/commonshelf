@@ -564,7 +564,7 @@ export const books: Book[] = [
     source: "Standard Ebooks",
     category: "gothic-fiction",
     description:
-      "Widely considered the first Gothic novel, blending medieval romance with supernatural terror to establish the conventions of a genre that would flourish for centuries — secret passages, prophecy, and ancestral curses.",
+      "Widely considered the first Gothic novel, blending medieval romance with supernatural terror to establish the conventions of a genre that would flourish for centuries: secret passages, prophecy, and ancestral curses.",
   },
   {
     id: "letters-to-a-young-poet",

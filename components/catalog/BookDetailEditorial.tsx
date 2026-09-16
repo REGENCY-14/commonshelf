@@ -63,7 +63,7 @@ export function BookDetailEditorial({ book }: BookDetailEditorialProps) {
         <SpecStat label="Language" value={book.languageDetail ?? book.language} withDivider />
         <SpecStat
           label="Length"
-          value={book.wordCountLabel ?? "—"}
+          value={book.wordCountLabel ?? "N/A"}
           secondary={book.readTimeLabel}
           withDivider
         />

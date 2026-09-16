@@ -12,7 +12,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Common Shelf — Find the edition worth reading",
+  title: "Common Shelf: Find the edition worth reading",
   description:
     "A curated digital library catalog linking legitimate, beautifully formatted public-domain editions from Project Gutenberg, Standard Ebooks, and the Internet Archive.",
 };

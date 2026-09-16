@@ -32,7 +32,7 @@ export function BookCoverImage({
     <div className={`relative isolate overflow-hidden bg-surface ${className}`}>
       <Image
         src={src}
-        alt={`${title} — cover, ${author}`}
+        alt={`${title} cover, ${author}`}
         fill
         sizes={sizes}
         priority={priority}

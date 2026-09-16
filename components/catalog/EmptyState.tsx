@@ -29,7 +29,7 @@ type EmptyStateProps = {
  */
 export function EmptyState({
   title = "Looking for something else?",
-  description = "If you didn't find your specific edition or query — try browsing by Victorian Literature subject classifications, or explore our curated collections index.",
+  description = "If you didn't find your specific edition or query, try browsing by Victorian Literature subject classifications, or explore our curated collections index.",
   icon = "results-empty-icon",
   primaryActionLabel = "Browse by subject",
   primaryActionHref = "/results",

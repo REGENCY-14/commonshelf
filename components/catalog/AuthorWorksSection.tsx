@@ -85,7 +85,7 @@ function AuthorWorkCard({ book }: { book: Book }) {
           </motion.h3>
         </Link>
         <p className="font-sans text-label text-text-muted">
-          {book.publicationYear} • {book.wordCountLabel ?? "—"}
+          {book.publicationYear} • {book.wordCountLabel ?? "N/A"}
         </p>
       </div>
     </motion.div>

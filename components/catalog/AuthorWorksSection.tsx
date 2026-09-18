@@ -70,7 +70,7 @@ function AuthorWorkCard({ book }: { book: Book }) {
           subject={book.subject}
           callNumber={book.callNumber}
           className="aspect-[4/3] shadow-sm"
-          eyebrow={book.jacketEyebrow ?? String(book.publicationYear)}
+          eyebrow={book.jacketEyebrow ?? (book.publicationYear > 0 ? String(book.publicationYear) : book.subject)}
           tagline={book.jacketTagline}
         />
       </Link>
@@ -85,7 +85,7 @@ function AuthorWorkCard({ book }: { book: Book }) {
           </motion.h3>
         </Link>
         <p className="font-sans text-label text-text-muted">
-          {book.publicationYear} • {book.wordCountLabel ?? "N/A"}
+          {book.publicationYear > 0 ? `${book.publicationYear} • ` : ""}{book.wordCountLabel ?? "N/A"}
         </p>
       </div>
     </motion.div>

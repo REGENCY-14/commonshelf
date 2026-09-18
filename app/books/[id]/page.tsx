@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { getBookById, getBooksByAuthor, countBooksByAuthor, books } from "@/lib/mock-data";
+import { getBookByIdRemote } from "@/lib/api/bot-client";
+import { apiBookToBook } from "@/lib/api/adapters";
 import { BookDetailBreadcrumbs } from "@/components/catalog/BookDetailBreadcrumbs";
 import { BookDetailJacket } from "@/components/catalog/BookDetailJacket";
 import { BookDetailEditorial } from "@/components/catalog/BookDetailEditorial";
@@ -13,22 +14,23 @@ import { AuthorWorksSection } from "@/components/catalog/AuthorWorksSection";
  * The outer rounded-card-with-shadow wrapper Figma shows around the whole
  * page (node 22:1169) is artboard chrome, not real product UI, and is
  * intentionally not implemented — consistent with the homepage build.
+ *
+ * Rendered dynamically per-request against the bot backend rather than
+ * statically generated, since book ids now come from a live catalog API
+ * rather than a fixed mock list.
  */
-export function generateStaticParams() {
-  return books.map((book) => ({ id: book.id }));
-}
-
 export default async function BookDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const book = getBookById(id);
-  if (!book) notFound();
+  const detail = await getBookByIdRemote(id);
+  if (!detail) notFound();
 
-  const authorWorks = getBooksByAuthor(book);
-  const authorWorkCount = countBooksByAuthor(book);
+  const book = apiBookToBook(detail);
+  const authorWorks = detail.relatedBooks.map(apiBookToBook);
+  const authorWorkCount = authorWorks.length;
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-10">

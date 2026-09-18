@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FilterBar } from "@/components/catalog/FilterBar";
 import { ResultRow } from "@/components/catalog/ResultRow";
@@ -9,7 +9,9 @@ import { ResultsPagination } from "@/components/catalog/ResultsPagination";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { SkeletonRow } from "@/components/catalog/SkeletonRow";
 import { useFilters } from "@/hooks/useFilters";
-import { books, getEditionEntries } from "@/lib/mock-data";
+import { getEditionEntries, type EditionEntry } from "@/lib/mock-data";
+import { searchBooksRemote, BotApiError } from "@/lib/api/bot-client";
+import { apiBookToBook } from "@/lib/api/adapters";
 
 const PAGE_SIZE = 10;
 const INITIAL_VISIBLE = 4;
@@ -20,35 +22,52 @@ const INITIAL_VISIBLE = 4;
  * source/printing of a work) rather than one row per book — see
  * `lib/mock-data.ts:Edition` for the data-model rationale.
  */
-function ResultsContent({ query, category }: { query: string; category: string | null }) {
+function ResultsContent({ query }: { query: string; category: string | null }) {
   // Remounted via `key` whenever query/category change, so loading always
   // starts true for the new search without a synchronous setState in an effect.
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [allEditions, setAllEditions] = useState<EditionEntry[]>([]);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
-  const matchingBooks = useMemo(() => {
-    let list = books;
-    if (category) list = list.filter((b) => b.category === category);
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      list = list.filter(
-        (b) =>
-          b.title.toLowerCase().includes(q) ||
-          b.author.toLowerCase().includes(q) ||
-          b.subject.toLowerCase().includes(q)
-      );
+  useEffect(() => {
+    if (!query.trim()) {
+      setAllEditions([]);
+      setLoading(false);
+      return;
     }
-    return list;
-  }, [query, category]);
 
-  const allEditions = useMemo(() => getEditionEntries(matchingBooks), [matchingBooks]);
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    searchBooksRemote(query)
+      .then((data) => {
+        if (cancelled) return;
+        const books = data.results.map(apiBookToBook);
+        setAllEditions(getEditionEntries(books));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setAllEditions([]);
+        setError(
+          err instanceof BotApiError
+            ? err.message
+            : "Something went wrong while searching. Please try again."
+        );
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [query]);
+
   const filters = useFilters(allEditions);
   const { filteredEditions } = filters;
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   const visibleEditions = filteredEditions.slice(0, visibleCount);
 
@@ -63,6 +82,16 @@ function ResultsContent({ query, category }: { query: string; category: string |
       <div className="flex flex-col gap-4">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)
+        ) : error ? (
+          <EmptyState
+            title="Couldn't load results"
+            description={error}
+            primaryActionLabel="Try again"
+            primaryActionHref={`/results?q=${encodeURIComponent(query)}`}
+            secondaryActionLabel={undefined}
+            secondaryActionHref={undefined}
+            showGraphic={false}
+          />
         ) : filteredEditions.length === 0 ? (
           <EmptyState
             title="No editions found"

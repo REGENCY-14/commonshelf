@@ -105,9 +105,11 @@ export function HomeHero() {
                                   <span className="font-sans text-body-sm text-text-secondary">
                                     by {book.author}
                                   </span>
-                                  <span className="font-sans text-label font-semibold tracking-wide text-text-secondary/60">
-                                    · {book.publicationYear}
-                                  </span>
+                                  {book.publicationYear > 0 && (
+                                    <span className="font-sans text-label font-semibold tracking-wide text-text-secondary/60">
+                                      · {book.publicationYear}
+                                    </span>
+                                  )}
                                 </span>
                               </Link>
                             </li>

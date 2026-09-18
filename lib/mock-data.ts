@@ -755,7 +755,9 @@ function synthesizeEdition(book: Book): Edition {
     sourceLabel: book.source,
     metaCaption: book.sourceLine,
     title: book.title,
-    byline: `${book.author} • ${book.publicationYear} • ${book.language}`,
+    byline: [book.author, book.publicationYear > 0 ? String(book.publicationYear) : null, book.language]
+      .filter(Boolean)
+      .join(" • "),
     description: book.description,
     coverImage: book.coverImage,
     formatTags: book.formats.map((f, i) => ({ label: FORMAT_LABEL[f], primary: i === 0 })),

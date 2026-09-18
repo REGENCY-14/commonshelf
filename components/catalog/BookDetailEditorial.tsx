@@ -50,14 +50,15 @@ export function BookDetailEditorial({ book }: BookDetailEditorialProps) {
           <a href={`/results?author=${encodeURIComponent(book.author)}`} className="font-sans text-[15px] font-semibold text-text-primary underline decoration-brand-mint decoration-1 underline-offset-2 focus-ring">
             {book.author}
           </a>
-          {book.authorFullName && ` (${book.authorFullName})`}, {book.publicationYear}
+          {book.authorFullName && ` (${book.authorFullName})`}
+          {book.publicationYear > 0 && `, ${book.publicationYear}`}
         </p>
       </div>
 
       <div className="flex items-start gap-2 bg-muted p-4">
         <SpecStat
           label="First Published"
-          value={book.publishedRange ?? String(book.publicationYear)}
+          value={book.publishedRange ?? (book.publicationYear > 0 ? String(book.publicationYear) : "Unknown")}
           withDivider
         />
         <SpecStat label="Language" value={book.languageDetail ?? book.language} withDivider />

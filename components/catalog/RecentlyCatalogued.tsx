@@ -1,23 +1,36 @@
 import Link from "next/link";
-import { getBookById } from "@/lib/mock-data";
+import { getBookByIdRemote } from "@/lib/api/bot-client";
+import { apiBookToBook } from "@/lib/api/adapters";
 import { BookCoverImage } from "@/components/ui/BookCoverImage";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
 
 /**
- * The four editions featured in this section, paired with the top-right
- * cover badge Figma shows for each (format/edition label distinct from
- * the bottom-row tag, which comes from `book.editionLabel`).
+ * The four editions featured in this section (Project Gutenberg ids),
+ * paired with the top-right cover badge Figma shows for each (format/
+ * edition label distinct from the bottom-row tag, which comes from
+ * `book.editionLabel`).
  */
 const FEATURED = [
-  { id: "dorian-gray", coverBadge: "EPUB + PDF" },
-  { id: "pride-and-prejudice", coverBadge: "Standard Ebooks" },
-  { id: "crime-and-punishment", coverBadge: "New Edition" },
-  { id: "mrs-dalloway", coverBadge: "EPUB" },
+  { id: "174", coverBadge: "EPUB + PDF" }, // The Picture of Dorian Gray
+  { id: "1342", coverBadge: "EPUB" }, // Pride and Prejudice
+  { id: "2554", coverBadge: "New Edition" }, // Crime and Punishment
+  { id: "84", coverBadge: "EPUB" }, // Frankenstein
 ] as const;
 
 /** "Recently Catalogued" section (Figma node 20:956): a 4-column grid of real book covers with format/edition badges. */
-export function RecentlyCatalogued() {
+export async function RecentlyCatalogued() {
+  const books = await Promise.all(
+    FEATURED.map(async ({ id, coverBadge }) => {
+      try {
+        const detail = await getBookByIdRemote(id);
+        return detail ? { book: apiBookToBook(detail), coverBadge } : null;
+      } catch {
+        return null;
+      }
+    })
+  );
+
   return (
     <section id="recently-catalogued" className="px-4 py-10 sm:px-12">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center">
@@ -35,19 +48,21 @@ export function RecentlyCatalogued() {
         </div>
 
         <div className="grid w-full grid-cols-1 gap-6 pt-12 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURED.map(({ id, coverBadge }) => {
-            const book = getBookById(id);
-            if (!book) return null;
+          {books.map((entry) => {
+            if (!entry) return null;
+            const { book, coverBadge } = entry;
             return (
-              <article key={id} className="flex flex-col bg-white p-3 shadow-xs">
+              <article key={book.id} className="flex flex-col bg-white p-3 shadow-xs">
                 <Link href={`/books/${book.id}`} className="focus-ring relative block pb-4">
-                  <BookCoverImage
-                    src={book.coverImage!}
-                    title={book.title}
-                    author={book.author}
-                    className="aspect-[3/4] bg-muted"
-                    sizes="(min-width: 1024px) 25vw, 50vw"
-                  />
+                  {book.coverImage ? (
+                    <BookCoverImage
+                      src={book.coverImage}
+                      title={book.title}
+                      author={book.author}
+                      className="aspect-[3/4] bg-muted"
+                      sizes="(min-width: 1024px) 25vw, 50vw"
+                    />
+                  ) : null}
                   <span className="absolute right-3 top-3">
                     <Badge variant="mint">{coverBadge}</Badge>
                   </span>
@@ -60,7 +75,8 @@ export function RecentlyCatalogued() {
                     </h3>
                   </Link>
                   <p className="pb-3 font-sans text-[13px] leading-5 text-text-secondary">
-                    {book.author} · {book.publicationYear}
+                    {book.author}
+                    {book.publicationYear > 0 && ` · ${book.publicationYear}`}
                   </p>
                   <div className="mt-auto flex items-center justify-between pt-2">
                     <Badge variant="muted">{book.editionLabel ?? book.source}</Badge>

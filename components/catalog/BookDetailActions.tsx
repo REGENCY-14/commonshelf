@@ -20,7 +20,8 @@ export function BookDetailActions({ book }: BookDetailActionsProps) {
 
   const handleCitation = () => {
     if (typeof navigator === "undefined" || !navigator.clipboard) return;
-    const citation = `${book.author}. ${book.title}. ${book.publicationYear}.`;
+    const year = book.publicationYear > 0 ? ` ${book.publicationYear}.` : "";
+    const citation = `${book.author}. ${book.title}.${year}`;
     navigator.clipboard.writeText(citation).catch(() => {});
   };
 

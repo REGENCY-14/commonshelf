@@ -6,16 +6,16 @@ import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
 
 /**
- * The four editions featured in this section (Project Gutenberg ids),
+ * The four editions featured in this section (Open Library work ids),
  * paired with the top-right cover badge Figma shows for each (format/
  * edition label distinct from the bottom-row tag, which comes from
  * `book.editionLabel`).
  */
 const FEATURED = [
-  { id: "174", coverBadge: "EPUB + PDF" }, // The Picture of Dorian Gray
-  { id: "1342", coverBadge: "EPUB" }, // Pride and Prejudice
-  { id: "2554", coverBadge: "New Edition" }, // Crime and Punishment
-  { id: "84", coverBadge: "EPUB" }, // Frankenstein
+  { id: "OL8193416W", coverBadge: "EPUB + PDF" }, // The Picture of Dorian Gray
+  { id: "OL66554W", coverBadge: "EPUB" }, // Pride and Prejudice
+  { id: "OL166894W", coverBadge: "New Edition" }, // Crime and Punishment
+  { id: "OL450063W", coverBadge: "EPUB" }, // Frankenstein
 ] as const;
 
 /** "Recently Catalogued" section (Figma node 20:956): a 4-column grid of real book covers with format/edition badges. */

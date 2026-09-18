@@ -6,8 +6,8 @@ import { StatCard } from "@/components/ui/StatCard";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 
-/** Project Gutenberg ids: The Time Machine, Wuthering Heights, Moby Dick, Great Expectations. */
-const MINI_GRID = ["35", "768", "2701", "1400"] as const;
+/** Open Library work ids: The Time Machine, Wuthering Heights, Moby Dick, Great Expectations. */
+const MINI_GRID = ["OL52267W", "OL21177W", "OL102749W", "OL8721462W"] as const;
 
 const STATS = [
   { value: "74,000+", label: ["Books", "Catalogued"] },
